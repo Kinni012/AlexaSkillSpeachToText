@@ -28,18 +28,18 @@ Once you have edited your function you can use the following command lines to bu
 
 Restore dependencies
 ```
-    cd "AWSLamdaSpeachToText"
+    cd "AWSLambda1"
     dotnet restore
 ```
 
 Execute unit tests
 ```
-    cd "AWSLamdaSpeachToText/test/AWSLamdaSpeachToText.Tests"
+    cd "AWSLambda1/test/AWSLambda1.Tests"
     dotnet test
 ```
 
 Deploy function to AWS Lambda
 ```
-    cd "AWSLamdaSpeachToText/src/AWSLamdaSpeachToText"
+    cd "AWSLambda1/src/AWSLambda1"
     dotnet lambda deploy-function
 ```

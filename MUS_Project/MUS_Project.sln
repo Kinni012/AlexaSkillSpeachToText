@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AWSLamda", "AWSLamda\AWSLamda.csproj", "{C20D62D5-A9A3-4435-BE18-D1A309D4CE28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AWSServerless", "AWSServerless\AWSServerless.csproj", "{C4BE7590-DE02-475C-ADFB-FD1A5ACB1461}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C20D62D5-A9A3-4435-BE18-D1A309D4CE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C20D62D5-A9A3-4435-BE18-D1A309D4CE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C20D62D5-A9A3-4435-BE18-D1A309D4CE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C20D62D5-A9A3-4435-BE18-D1A309D4CE28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4BE7590-DE02-475C-ADFB-FD1A5ACB1461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4BE7590-DE02-475C-ADFB-FD1A5ACB1461}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4BE7590-DE02-475C-ADFB-FD1A5ACB1461}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4BE7590-DE02-475C-ADFB-FD1A5ACB1461}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
