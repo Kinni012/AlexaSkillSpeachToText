@@ -1,0 +1,202 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "stp",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "CreateFileIntent",
+                    "slots": [
+                        {
+                            "name": "name",
+                            "type": "AMAZON.LITERAL"
+                        }
+                    ],
+                    "samples": [
+                        "Add file {Main|name}",
+                        "New file {Main|name}",
+                        "Create file {Main|name}",
+                        "Generate file {Main|name}"
+                    ]
+                },
+                {
+                    "name": "ConsoleWriteLineIntent",
+                    "slots": [
+                        {
+                            "name": "text",
+                            "type": "AMAZON.LITERAL"
+                        }
+                    ],
+                    "samples": [
+                        "Console write line {Maybe is this nativ language|text}",
+                        "Console write {This is a Sample text|text}",
+                        "Console write {Hello World|text}",
+                        "write line {Example Text |text}",
+                        "Write {Test|text}",
+                        "cw {Test|text}",
+                        "Console write {Test|text}"
+                    ]
+                },
+                {
+                    "name": "GoToLineIntent",
+                    "slots": [
+                        {
+                            "name": "lineNumber",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "Move to line {lineNumber}",
+                        "Move to row {lineNumber}",
+                        "Enter row {lineNumber}",
+                        "Go to row {lineNumber}",
+                        "Enter Line {lineNumber}",
+                        "Line {lineNumber}",
+                        "Go to line {lineNumber}"
+                    ]
+                },
+                {
+                    "name": "GoToColumnIntent",
+                    "slots": [
+                        {
+                            "name": "columNumber",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "Enter Column {columNumber}",
+                        "Move to Column {columNumber}",
+                        "Column {columNumber}",
+                        "Go to Colum {columNumber}"
+                    ]
+                },
+                {
+                    "name": "ForIntent",
+                    "slots": [
+                        {
+                            "name": "variable",
+                            "type": "AMAZON.LITERAL"
+                        },
+                        {
+                            "name": "lowerBound",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "upperBound",
+                            "type": "AMAZON.NUMBER"
+                        },
+                        {
+                            "name": "stepWidth",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "for {temp|variable} start with {lowerBound} end with {upperBound}",
+                        "for {var|variable} start with {lowerBound} to {upperBound}",
+                        "for {k|variable} lower bound {lowerBound} upperBound {upperBound}",
+                        "for {j|variable} is {lowerBound} to {upperBound} ",
+                        "for {x|variable} lower bound {lowerBound} upperBound {upperBound} stepWidth {stepWidth}",
+                        "for {h|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}",
+                        "for {g|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}",
+                        "for {f|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}",
+                        "for {e|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}",
+                        "for {d|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}",
+                        "for {c|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}",
+                        "for {b|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}",
+                        "for {a|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}",
+                        "for {i|variable} is {lowerBound} to {upperBound} stepWidth {stepWidth}"
+                    ]
+                },
+                {
+                    "name": "CreateBoolVariableIntent",
+                    "slots": [
+                        {
+                            "name": "name",
+                            "type": "AMAZON.LITERAL"
+                        },
+                        {
+                            "name": "value",
+                            "type": "boolType"
+                        }
+                    ],
+                    "samples": [
+                        "bool {w|name} is {value}",
+                        "Make bool {w|name} is {value}",
+                        "bool {w|name} {value}",
+                        "Make bool {Test|name} {value}",
+                        "Make bool {w|name} {value}",
+                        "Create bool {IsOk|name} {value}",
+                        "Create bool {IsReady|name} value is {value}",
+                        "Create bool {x|name} value is {value}",
+                        "Create bool {h|name} is {value}",
+                        "Create bool {sampleVar|name} is {value}",
+                        "Create bool {a|name} is {value}",
+                        "Create bool {test|name} is {value}"
+                    ]
+                },
+                {
+                    "name": "CreateIntIntent",
+                    "slots": [
+                        {
+                            "name": "name",
+                            "type": "AMAZON.LITERAL"
+                        },
+                        {
+                            "name": "val",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "generate int {val|name} is {val}",
+                        "make int {val|name} is {val}",
+                        "int {y|name} is {val}",
+                        "int {x|name} is {val}",
+                        "int {intVal|name} is {val}",
+                        "int {h|name} {val}",
+                        "int {intVal|name} {val}",
+                        "create int {j|name} {val}",
+                        "create int {i|name} {val}",
+                        "create int {test|name} {val}",
+                        "create int {number|name} {val}",
+                        "create int {nr|name} {val}",
+                        "create int {counter|name} {val}",
+                        "create int {val|name} {val}",
+                        "create int {a|name} {val}"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "boolType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "false"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "true"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
