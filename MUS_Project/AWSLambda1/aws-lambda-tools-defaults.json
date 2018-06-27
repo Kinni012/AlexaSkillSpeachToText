@@ -6,7 +6,7 @@
         "dotnet lambda help",
         "All the command line options for the Lambda command can be specified in this file."
     ],
-    "profile"     : "6776-6036-4511",
+    "profile"     : "Ecekiel",
     "region"      : "eu-west-1",
     "configuration" : "Release",
     "framework"     : "netcoreapp2.0",
@@ -15,9 +15,9 @@
     "function-timeout"     : 30,
     "function-handler"     : "AWSLambda1::AWSLambda1.Function::FunctionHandler",
     "function-name"        : "FirstApi",
-    "function-role"        : "arn:aws:iam::677660364511:role/lambda_exec_FirstApi-5",
+    "function-role"        : "arn:aws:iam::977523068246:role/lambda_exec_FirstApi-0",
     "tracing-mode"         : "PassThrough",
     "environment-variables" : "",
-    "function-subnets"      : "subnet-0d0ddc58e8b4d9596",
-    "function-security-groups" : "sg-08efefc29c1d4c03e"
+    "function-subnets"      : "subnet-03c69a27dbf8864da",
+    "function-security-groups" : "sg-0235aef551b27dad1"
 }

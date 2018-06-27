@@ -9,6 +9,7 @@ using Alexa.NET.Response;
 using Amazon.Lambda.Core;
 using System.Net.Http;
 using System.Text;
+using System.IO;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -54,10 +55,9 @@ namespace AWSLambda1
 
       var client = new HttpClient();
 
-      var res = client.PostAsync("http://10.0.0.195:7909/api/file/CreateFile", new StringContent("\"Test.txt\"", Encoding.UTF8, "application/json"));
+      var res = client.PostAsync("http://10.0.1.185:7909/api/file/CreateFile", new StringContent("\"Test.txt\"", Encoding.UTF8, "application/json"));
       Task.WaitAll();
       var temp = res.Result;
-
       if (!(intentRequest.Intent.Slots.TryGetValue("text", out var text))) return result;
       if (string.IsNullOrEmpty(text?.Value)) return result;
       return result + $" {text.Value} APi: {temp}";
