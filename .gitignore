@@ -259,3 +259,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/MUS_Project/AWSLambda1/aws-lambda-tools-defaults.json

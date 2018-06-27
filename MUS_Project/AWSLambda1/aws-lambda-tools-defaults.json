@@ -15,7 +15,9 @@
     "function-timeout"     : 30,
     "function-handler"     : "AWSLambda1::AWSLambda1.Function::FunctionHandler",
     "function-name"        : "FirstApi",
-    "function-role"        : "arn:aws:iam::677660364511:role/lambda_exec_FirstApi-2",
+    "function-role"        : "arn:aws:iam::677660364511:role/lambda_exec_FirstApi-5",
     "tracing-mode"         : "PassThrough",
-    "environment-variables" : ""
+    "environment-variables" : "",
+    "function-subnets"      : "subnet-0d0ddc58e8b4d9596",
+    "function-security-groups" : "sg-08efefc29c1d4c03e"
 }
