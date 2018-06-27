@@ -41,7 +41,7 @@ namespace AWSLambda1
 
       return response;
     }
-    
+
     private string ConsoleWriteLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Write Line:";
@@ -52,6 +52,16 @@ namespace AWSLambda1
       if (string.IsNullOrEmpty(text?.Value)) return result;
       return result + $" {text.Value}";
     }
+
+    private string ConsoleWriteLineVariableIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "Write line variable:";
+      
+      if (!(intentRequest.Intent.Slots.TryGetValue("varName", out var varName))) return result;
+      if (string.IsNullOrEmpty(varName?.Value)) return result;
+      return result + $" {varName.Value}";
+    }
+    
     private string GoToLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Go to line:";
@@ -59,6 +69,35 @@ namespace AWSLambda1
       if (string.IsNullOrEmpty(lineNumber?.Value)) return result;
       return result + $" {lineNumber.Value}";
     }
+
+    private string DeleteLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "Delete Line:";
+      if (!(intentRequest.Intent.Slots.TryGetValue("lineNr", out var lineNr))) return result;
+      if (string.IsNullOrEmpty(lineNr?.Value)) return result;
+      return result + $" {lineNr.Value}";
+    }
+    private string IncreaseVarIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "Increase Variable:";
+      if (!(intentRequest.Intent.Slots.TryGetValue("variableName", out var variableName))) return result;
+      if (string.IsNullOrEmpty(variableName?.Value)) return result;
+      return result + $" {variableName.Value}";
+    }
+
+
+    private string ReadFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      return "Read file";
+    }
+
+    private string ResetFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      return "Reset file";
+    }
+
+
+
     private string GoToColumnIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Go to column:";
@@ -131,6 +170,47 @@ namespace AWSLambda1
       return result;
     }
 
+    private string WhileIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "While Created, Parameters: ";
+      if((intentRequest.Intent.Slots.TryGetValue("varName", out var varName))&&
+      (intentRequest.Intent.Slots.TryGetValue("compareType", out var compareType)) &&
+      (intentRequest.Intent.Slots.TryGetValue("num", out var num)))
+      {
+
+        if (!string.IsNullOrEmpty(varName?.Value))
+          result += " var name: " + varName.Value;
+
+        if (!string.IsNullOrEmpty(compareType?.Value))
+          result += " compareType: " + compareType.Value;
+
+        if (!string.IsNullOrEmpty(num?.Value))
+          result += " num: " + num.Value;
+
+      }
+      return result;
+    }
+
+    private string IfIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "If Created, Parameters: ";
+      if ((intentRequest.Intent.Slots.TryGetValue("varName", out var varName)) &&
+      (intentRequest.Intent.Slots.TryGetValue("compareType", out var compareType)) &&
+      (intentRequest.Intent.Slots.TryGetValue("number", out var number)))
+      {
+
+        if (!string.IsNullOrEmpty(varName?.Value))
+          result += " var name: " + varName.Value;
+
+        if (!string.IsNullOrEmpty(compareType?.Value))
+          result += " compareType: " + compareType.Value;
+
+        if (!string.IsNullOrEmpty(number?.Value))
+          result += " number: " + number.Value;
+
+      }
+      return result;
+    }
 
 
     //Use Url in Settingsfile for each post request
@@ -145,6 +225,12 @@ namespace AWSLambda1
         case "ConsoleWriteLineIntent":
           responseSpeech += ConsoleWriteLineIntent(intentRequest, logger);
           break;
+
+        case "ConsoleWriteLineVariableIntent":
+          responseSpeech += ConsoleWriteLineVariableIntent(intentRequest, logger);
+          break;
+
+
 
         case "GoToLineIntent":
           responseSpeech += GoToLineIntent(intentRequest, logger);
@@ -166,6 +252,31 @@ namespace AWSLambda1
         case "ForIntent":
           responseSpeech += ForIntent(intentRequest, logger);
           break;
+
+        case "WhileIntent":
+          responseSpeech += WhileIntent(intentRequest, logger);
+          break;
+
+        case "IfIntent":
+          responseSpeech += IfIntent(intentRequest, logger);
+          break;
+
+        case "ReadFileIntent":
+          responseSpeech += ReadFileIntent(intentRequest, logger);
+          break;
+          
+        case "DeleteRowIntent":
+          responseSpeech += DeleteLineIntent(intentRequest, logger);
+          break;
+
+        case "IncreaseVarIntent":
+          responseSpeech += IncreaseVarIntent(intentRequest, logger);
+          break;
+
+        case "ResetFileIntent":
+          responseSpeech += ResetFileIntent(intentRequest, logger);
+          break;
+
 
       }
 
