@@ -41,14 +41,7 @@ namespace AWSLambda1
 
       return response;
     }
-
-    private string CreateFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
-    {
-      string result = "Created File: ";
-      if (!(intentRequest.Intent.Slots.TryGetValue("name", out var fileName))) return result;
-      if (string.IsNullOrEmpty(fileName?.Value)) return result;
-      return result + $" {fileName.Value}";
-    }
+    
     private string ConsoleWriteLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Write Line:";
@@ -59,7 +52,6 @@ namespace AWSLambda1
       if (string.IsNullOrEmpty(text?.Value)) return result;
       return result + $" {text.Value}";
     }
-
     private string GoToLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Go to line:";
@@ -67,7 +59,6 @@ namespace AWSLambda1
       if (string.IsNullOrEmpty(lineNumber?.Value)) return result;
       return result + $" {lineNumber.Value}";
     }
-
     private string GoToColumnIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Go to column:";
@@ -151,10 +142,6 @@ namespace AWSLambda1
       string responseSpeech = "";
       switch (s)
       {
-        case "CreateFileIntent":
-          responseSpeech += CreateFileIntent(intentRequest, logger);
-          break;
-
         case "ConsoleWriteLineIntent":
           responseSpeech += ConsoleWriteLineIntent(intentRequest, logger);
           break;
@@ -170,9 +157,11 @@ namespace AWSLambda1
         case "CreateBoolVariableIntent":
           responseSpeech += CreateBoolVariableIntent(intentRequest, logger);
           break;
+
         case "CreateIntVariableIntent":
           responseSpeech += CreateIntVariableIntent(intentRequest, logger);
           break;
+
 
         case "ForIntent":
           responseSpeech += ForIntent(intentRequest, logger);
