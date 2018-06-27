@@ -1,0 +1,36 @@
+version: '3'
+services:
+  webapp:
+    container_name: graphql.sve
+    image: graphql:${WEBAPP_VERSION}
+    build:
+      context: .
+      dockerfile: ./App.dockerfile
+      args:
+        WEBAPP_VERSION: ${WEBAPP_VERSION}
+        URL_PORT: ${URL_PORT}
+    ports:
+      - "5001:${URL_PORT}"
+    volumes:
+      - appbuild:/app/graphql
+    links:
+      - mysql
+    environment:
+      MYSQL_SERVER_NAME: ${MYSQL_SERVER_NAME}
+    env_file:
+      - secrets.env  
+   
+  mysql:
+    container_name: ${MYSQL_SERVER_NAME}
+    image: mysql/mysql-server:5.7
+    restart: always
+    volumes:
+      - dbvol:/var/lib/mysql
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: !!str yes
+    env_file:
+      - secrets.env
+
+volumes:
+  appbuild:
+  dbvol:
