@@ -57,10 +57,8 @@ namespace DisplayApi
             //app.UseHttpsRedirection();
             app.UseMvc();
 
-            //app.UseFileServer();
+            app.UseFileServer();
         }
-
-
     }
 }
 

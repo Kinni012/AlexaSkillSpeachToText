@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ChatSample.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.AspNetCore.Mvc;
+using System.Web;
 
 namespace DisplayApi.Controllers
 {
@@ -27,19 +28,19 @@ namespace DisplayApi.Controllers
         [HttpGet]
         public async Task<string> Get()
         {
-            await ctx.Clients?.All?.SendAsync("broadcastMessage", "name", "msg");
+            await ctx.Clients?.All?.SendAsync("broadcastMessage", "msg");
             return alexaSkillContent;
         }
 
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] dynamic value)
+        public async void PostAsync([FromBody] string value)
         {
-            string content = value.Data;
-            if (alexaSkillContent != content)
+            await ctx.Clients?.All?.SendAsync("broadcastMessage", value);
+            if (alexaSkillContent != value)
             {
-                alexaSkillContent = content;
+                alexaSkillContent = value;
             }
         }
     }
