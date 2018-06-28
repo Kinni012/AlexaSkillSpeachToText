@@ -160,31 +160,67 @@ namespace AWSLambda1
     private string ForIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "For Created, Parameters: ";
-      
+      string lBound;
+      string uBound;
+      string sWidth;
+      string var;
+
+
       intentRequest.Intent.Slots.TryGetValue("lowerBount", out var lowerBound);
       intentRequest.Intent.Slots.TryGetValue("upperBound", out var upperBound);
       intentRequest.Intent.Slots.TryGetValue("stepWidth", out var stepWidth);
-      intentRequest.Intent.Slots.TryGetValue("variable", out var var);
-      
-      if (!string.IsNullOrEmpty(var?.Value))
-        result += "variable: " + var.Value;
+      intentRequest.Intent.Slots.TryGetValue("variable", out var variable);
+
+      if (!string.IsNullOrEmpty(variable?.Value))
+      {
+        result += "variable: " + variable.Value;
+        var = variable.Value;
+      }
       else
+      {
         result += "variable: i";
+        var = "i";
+      }
 
       if (!string.IsNullOrEmpty(lowerBound?.Value))
+      {
         result += " lower bound: " + lowerBound.Value;
+        lBound = lowerBound.Value;
+      }
       else
+      {
         result += " lower bound: 0";
+        lBound = "0";
+      }
 
       if (!string.IsNullOrEmpty(upperBound?.Value))
+      {
         result += " upper bound: " + upperBound.Value;
+        uBound = upperBound.Value;
+      }
       else
+      {
         result += " upper bound: 10";
+        uBound = "10";
+      }
 
       if (!string.IsNullOrEmpty(stepWidth?.Value))
+      {
         result += " step width: " + stepWidth.Value;
+        sWidth = stepWidth.Value;
+      }
       else
+      {
         result += " step width: 1";
+        sWidth = "1";
+      }
+
+
+
+      var x = new { varName = var, lowerBound = lBound, upperBound = uBound, stepWidth = sWidth};
+      var data = JsonConvert.SerializeObject(x);
+
+      HttpHelper.PerformPost(Settings.PostUrl + "/CreateFor", data);
 
       return result;
     }
