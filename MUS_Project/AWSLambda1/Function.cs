@@ -48,10 +48,13 @@ namespace AWSLambda1
     {
       string result = "Write Line:";
 
-      string s = HttpHelper.PerformPost("http://10.0.0.195:7909/api/file/CreateFile", "\"Test.txt\"");
       result += $" {s}";
       if (!(intentRequest.Intent.Slots.TryGetValue("text", out var text))) return result;
       if (string.IsNullOrEmpty(text?.Value)) return result;
+      var x = new { text = text.Value };
+      var data = JsonConvert.SerializeObject(x);
+
+      HttpHelper.PerformPost(Settings.PostUrl + "/ConsoleWriteLine", data);
       return result + $" {text.Value}";
     }
 
@@ -206,6 +209,10 @@ namespace AWSLambda1
         if (!string.IsNullOrEmpty(num?.Value))
           result += " num: " + num.Value;
 
+        var x = new { varName = varName.Value, compareType = convertCompareTextToSymbol(compareType.Value), number = num.Value };
+        var data = JsonConvert.SerializeObject(x);
+
+        HttpHelper.PerformPost(Settings.PostUrl + "/CreateWhile", data);
       }
       return result;
     }
@@ -228,7 +235,7 @@ namespace AWSLambda1
           result += " number: " + number.Value;
 
 
-        var x = new { varName = varName.Value, compareType = compareType.Value, number = number.Value };
+        var x = new { varName = varName.Value, compareType = convertCompareTextToSymbol(compareType.Value), number = number.Value };
         var data = JsonConvert.SerializeObject(x);
 
         HttpHelper.PerformPost(Settings.PostUrl + "/CreateIf", data);
