@@ -120,11 +120,38 @@ namespace MUS.API.Controllers
         public bool ConsoleWriteLine([FromBody] dynamic data)
         {
             List<string> l = new List<string>();
-            l.Add("Console.WriteLine(" + data.text + ")");
+            l.Add("Console.WriteLine(\"" + data.text + "\");");
             l.Add("");
             fh.currentLine += 1;
             return fh.AppendFromLine(fh.currentLine, l);
         }
+
+        // POST api/values
+        [Route("ConsoleWriteLineVariable")]
+        [HttpPost]
+        public bool ConsoleWriteLineVariable([FromBody] dynamic data)
+        {
+            List<string> l = new List<string>();
+            l.Add("Console.WriteLine(\"" + data.text + "\");");
+            l.Add("");
+            fh.currentLine += 1;
+            return fh.AppendFromLine(fh.currentLine, l);
+        }
+        
+        // POST api/values
+        [Route("IncreaseVar")]
+        [HttpPost]
+        public bool IncreaseVar([FromBody] dynamic data)
+        {
+            List<string> l = new List<string>();
+            l.Add(data.variableName + "++;");
+            l.Add("");
+            fh.currentLine += 1;
+            return fh.AppendFromLine(fh.currentLine, l);
+        }
+
+
+
 
         // POST api/values
         [Route("SetColumn")]
