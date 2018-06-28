@@ -47,8 +47,6 @@ namespace AWSLambda1
     private string ConsoleWriteLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Write Line:";
-
-      result += $" {s}";
       if (!(intentRequest.Intent.Slots.TryGetValue("text", out var text))) return result;
       if (string.IsNullOrEmpty(text?.Value)) return result;
       var x = new { text = text.Value };
@@ -104,7 +102,7 @@ namespace AWSLambda1
 
     private string ReadFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
-      return HttpHelper.PerformPost(Settings.PostUrl + "/ReadFile", "");
+      return HttpHelper.PerformPost(Settings.PostUrl + "/ReadFile", "\"Test.txt\"");
     }
 
     private string ResetFileIntent(IntentRequest intentRequest, ILambdaLogger logger)

@@ -14,9 +14,9 @@ using Newtonsoft.Json;
 
 namespace MUS.API.Controllers
 {
-  [Route("api/[controller]")]
-  public class FileController : Controller
-  {
+    [Route("api/[controller]")]
+    public class FileController : Controller
+    {
         private static IFileHandler fh = new FileHandlerImpl();
 
         static FileController()
@@ -44,7 +44,7 @@ namespace MUS.API.Controllers
             l.Add("    static void Main(string[] args)");
             l.Add("    {");
             l.Add("      ");
-            l.Add("    {");
+            l.Add("    }");
             l.Add("  }");
             l.Add("}");
             fh.AppendToFile(l);
@@ -97,9 +97,9 @@ namespace MUS.API.Controllers
         {
             List<string> l = new List<string>();
             l.Add("Console.WriteLine(" + data.text + ")");
-            l.Add("");  
+            l.Add("");
             fh.currentLine += 1;
-            return fh.AppendFromLine(fh.currentLine, l); 
+            return fh.AppendFromLine(fh.currentLine, l);
         }
 
         // POST api/values
@@ -127,7 +127,7 @@ namespace MUS.API.Controllers
         [HttpPost]
         public string DeleteLine([FromBody] dynamic data)
         {
-            
+
             return fh.DeleteRange(data.lineNumber, 1);
         }
 
@@ -139,5 +139,15 @@ namespace MUS.API.Controllers
         {
             return fh.ReadFile();
         }
+
+        private string PrependSpacesToString(string s, int count)
+        {
+            string temp = "";
+            for (int i = 0; i < count; i++)
+            {
+                temp += " ";
+            }
+            return temp + s;
+        }
     }
-  }
+}

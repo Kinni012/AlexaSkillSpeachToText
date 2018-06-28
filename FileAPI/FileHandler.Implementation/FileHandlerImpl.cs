@@ -15,6 +15,9 @@ namespace FileHandler.Implementation
         public FileHandlerImpl()
         {
             lines = new List<string>();
+            currentLineCount = 15;
+            currentLine = 12;
+            currentPositionInLine = 6;
         }
         public string ReadFile()
         {
