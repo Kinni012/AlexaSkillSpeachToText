@@ -104,7 +104,7 @@ namespace AWSLambda1
 
     private string ReadFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
-      return HttpHelper.PerformPost(Settings.PostUrl + "/ReadFile", "\"Test.txt\"");
+      return HttpHelper.PerformPost(Settings.PostUrl + "/ReadFile", "");
     }
 
     private string ResetFileIntent(IntentRequest intentRequest, ILambdaLogger logger)

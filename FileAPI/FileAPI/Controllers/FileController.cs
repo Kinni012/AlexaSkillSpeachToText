@@ -14,9 +14,9 @@ using Newtonsoft.Json;
 
 namespace MUS.API.Controllers
 {
-    [Route("api/[controller]")]
-    public class FileController : Controller
-    {
+  [Route("api/[controller]")]
+  public class FileController : Controller
+  {
         private static IFileHandler fh = new FileHandlerImpl();
 
         static FileController()
@@ -140,4 +140,4 @@ namespace MUS.API.Controllers
             return fh.ReadFile();
         }
     }
-}
+  }
