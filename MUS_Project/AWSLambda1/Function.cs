@@ -10,6 +10,7 @@ using Amazon.Lambda.Core;
 using System.Net.Http;
 using System.Text;
 using AWSLambda1.HttpHandler;
+using Newtonsoft.Json;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -67,6 +68,12 @@ namespace AWSLambda1
       string result = "Go to line:";
       if (!(intentRequest.Intent.Slots.TryGetValue("lineNumber", out var lineNumber))) return result;
       if (string.IsNullOrEmpty(lineNumber?.Value)) return result;
+
+      var x = new { lineNumber = lineNumber.Value };
+      var data = JsonConvert.SerializeObject(x);
+
+      HttpHelper.PerformPost(Settings.PostUrl + "/SetRow", data);
+
       return result + $" {lineNumber.Value}";
     }
 
@@ -75,6 +82,11 @@ namespace AWSLambda1
       string result = "Delete Line:";
       if (!(intentRequest.Intent.Slots.TryGetValue("lineNr", out var lineNr))) return result;
       if (string.IsNullOrEmpty(lineNr?.Value)) return result;
+
+      var x = new { lineNr = lineNr.Value };
+      var data = JsonConvert.SerializeObject(x);
+
+      HttpHelper.PerformPost(Settings.PostUrl + "/DeleteLine", data);
       return result + $" {lineNr.Value}";
     }
     private string IncreaseVarIntent(IntentRequest intentRequest, ILambdaLogger logger)
@@ -88,7 +100,7 @@ namespace AWSLambda1
 
     private string ReadFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
-      return "Read file";
+      return HttpHelper.PerformPost(Settings.PostUrl + "/ReadFile", "\"Test.txt\"");
     }
 
     private string ResetFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
@@ -103,6 +115,12 @@ namespace AWSLambda1
       string result = "Go to column:";
       if (!(intentRequest.Intent.Slots.TryGetValue("columnNumber", out var columnNumber))) return result;
       if (string.IsNullOrEmpty(columnNumber?.Value)) return result;
+
+      var x = new { columnNumber = columnNumber.Value };
+      var data = JsonConvert.SerializeObject(x);
+
+      HttpHelper.PerformPost(Settings.PostUrl + "/SetColumn", data);
+
       return result + $" {columnNumber.Value}";
     }
     private string CreateBoolVariableIntent(IntentRequest intentRequest, ILambdaLogger logger)
@@ -208,6 +226,11 @@ namespace AWSLambda1
         if (!string.IsNullOrEmpty(number?.Value))
           result += " number: " + number.Value;
 
+
+        var x = new { varName = varName.Value, compareType = compareType.Value, number = number.Value };
+        var data = JsonConvert.SerializeObject(x);
+
+        HttpHelper.PerformPost(Settings.PostUrl + "/CreateIf", data);
       }
       return result;
     }
@@ -286,7 +309,26 @@ namespace AWSLambda1
         Text = responseSpeech
       });
 
+
       return response;
+    }
+
+    string convertCompareTextToSymbol(string s)
+    {
+      switch (s.ToLower())
+      {
+        case "lesser":
+          return "<";
+        case "higher":
+          return ">";
+        case "equals":
+          return "==";
+        case "higher or equals":
+          return ">=";
+        case "lesser or equals":
+          return "<=";
+      }
+      return "==";
     }
   }
 }

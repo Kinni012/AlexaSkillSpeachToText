@@ -8,8 +8,8 @@ namespace FileHandler.Implementation
 {
   public class FileHandlerImpl : IFileHandler
   {
-    public int ColumnNumber;
-    public int RowNumber;
+    public int ColumnNumber { get; set; }
+    public int RowNumber { get; set; }
     FileStream fileStream = null;
 
 
@@ -98,7 +98,14 @@ namespace FileHandler.Implementation
       throw new NotImplementedException();
     }
 
+    public string ReadFile()
+    {
+      throw new NotImplementedException();
+    }
 
-
+    public bool DeleteRange(int startLineNr, int count)
+    {
+      throw new NotImplementedException();
+    }
   }
 }
