@@ -53,6 +53,7 @@ namespace MUS.API.Controllers
         }
 
 
+        //dont need that yet
         // POST api/values
         [Route("CreateClass")]
         [HttpPost]
@@ -61,10 +62,19 @@ namespace MUS.API.Controllers
 
         }
 
+
          // POST api/values
         [Route("CreateWhile")]
         [HttpPost]
         public void CreateWhile([FromBody]string[] value)
+        {
+
+        }
+
+        // POST api/values
+        [Route("CreateFor")]
+        [HttpPost]
+        public void CreateFor([FromBody]string[] value)
         {
 
         }

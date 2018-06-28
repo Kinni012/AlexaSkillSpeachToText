@@ -10,6 +10,7 @@ using Amazon.Lambda.Core;
 using System.Net.Http;
 using System.Text;
 using System.IO;
+using AWSLambda1.HttpHandler;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -53,14 +54,11 @@ namespace AWSLambda1
     {
       string result = "Write Line:";
 
-      var client = new HttpClient();
-
-      var res = client.PostAsync("http://10.0.1.185:7909/api/file/CreateFile", new StringContent("\"Test.txt\"", Encoding.UTF8, "application/json"));
-      Task.WaitAll();
-      var temp = res.Result;
+      string s = HttpHelper.PerformPost("http://10.0.0.195:7909/api/file/CreateFile", "\"Test.txt\"");
+      result += $" {s}";
       if (!(intentRequest.Intent.Slots.TryGetValue("text", out var text))) return result;
       if (string.IsNullOrEmpty(text?.Value)) return result;
-      return result + $" {text.Value} APi: {temp}";
+      return result + $" {text.Value}";
     }
 
     private string GoToLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
@@ -145,7 +143,7 @@ namespace AWSLambda1
 
 
 
-
+    //Use Url in Settingsfile for each post request
     private SkillResponse HandleIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       logger.LogLine($"IntentRequest {intentRequest.Intent.Name} made");

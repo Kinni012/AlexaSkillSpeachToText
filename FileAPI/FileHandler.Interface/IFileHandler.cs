@@ -6,13 +6,15 @@ namespace FileHandler.Interface
 {
     public interface IFileHandler
     {
-        bool CreateFile(string name);
-        bool DeleteFile(string name);
-        bool DeleteFileContent(string name);
-        bool AppendToFile(string name, string content);
-        bool PrependToFile(string name, string content);
-        bool AppendFromLine(int lineNumber, string content);
+        int currentLineCount { get; set; }
+        int currentLine { get; set; }
+        int currentPositionInLine { get; set; }
+        string ReadFile();
+        bool DeleteFile();
+        bool AppendToFile(List<string> content);
+        bool AppendFromLine(int lineNumber, List<string> content);
         bool ReplaceLineInFile(int lineNumber, string content);
-        bool ReplaceRangeInFile(int startLineNumber, int endLineNumber, string[] lineArray);
+        bool ReplaceRangeInFile(int startLineNumber,  List<string> lineArray);
+        bool DeleteRange(int startLineNumber, int count);
     }
 }

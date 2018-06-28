@@ -8,63 +8,74 @@ namespace FileHandler.Implementation
 {
     public class FileHandlerImpl : IFileHandler
     {
+        public int currentLineCount { get; set; }
+        public int currentLine { get; set; }
+        public int currentPositionInLine { get; set; }
+        private static string defaultFileName = "Program.cs";
+        public List<string> lines;
         public FileHandlerImpl()
         {
+            lines = new List<string>();
+        }
+        public string ReadFile()
+        {
+            StringBuilder sb = new StringBuilder();
+            int index = 0;
+            foreach(string l in lines)
+            {
+                StringBuilder lb = new StringBuilder();
+                lb.Append(index++);
+                lb.Append(l);
+                lb.Append("<br>");
+                sb.Append(lb.ToString());
+            }
 
+            return sb.ToString();
         }
 
-        public bool CreateFile(string name)
+        public bool DeleteFile()
         {
-            FileStream fileStream = new FileStream(name, FileMode.OpenOrCreate);
-            try
-            {
-                using (StreamWriter writer = new StreamWriter(fileStream))
-                {
-                    writer.WriteLine("test");
-                }
-            }
-            catch (SystemException ex)
-            {
-                Console.WriteLine(ex.Message);
+            lines?.Clear();
+            currentLine = 12;
+            if (lines.Count == 0)
+                return true;
+            else
                 return false;
-            }
-           
-            return true;
         }
 
-        public bool AppendFromLine(int lineNumber, string content)
+        public bool DeleteRange(int startLineNumber, int count)
         {
-            throw new NotImplementedException();
+            currentLineCount -= count;
+            lines.RemoveRange(startLineNumber, count);
+            return lines.Count == currentLineCount;
         }
 
-        public bool AppendToFile(string name, string content)
+        public bool AppendFromLine(int lineNumber, List<string> content)
         {
-            throw new NotImplementedException();
+            lines.InsertRange(lineNumber, content);
+            currentLineCount += content.Count;
+            return currentLineCount == lines.Count;
         }
 
-        public bool DeleteFile(string name)
+        public bool AppendToFile(List<string> content)
         {
-            throw new NotImplementedException();
+            lines.AddRange(content);
+            currentLineCount += content.Count;
+            return currentLineCount == lines.Count;
         }
 
-        public bool DeleteFileContent(string name)
+        public bool ReplaceRangeInFile(int startLineNumber, List<string> content)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool PrependToFile(string name, string content)
-        {
-            throw new NotImplementedException();
+            lines.RemoveRange(startLineNumber, content.Count);
+            lines.InsertRange(startLineNumber, content);
+            return currentLineCount == lines.Count;
         }
 
         public bool ReplaceLineInFile(int lineNumber, string content)
         {
-            throw new NotImplementedException();
+            return ReplaceRangeInFile(lineNumber, new List<string>() { content });
         }
 
-        public bool ReplaceRangeInFile(int startLineNumber, int endLineNumber, string[] lineArray)
-        {
-            throw new NotImplementedException();
-        }
     }
+
 }
