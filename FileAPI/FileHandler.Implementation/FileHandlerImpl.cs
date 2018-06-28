@@ -11,7 +11,6 @@ namespace FileHandler.Implementation
         public int currentLineCount { get; set; }
         public int currentLine { get; set; }
         public int currentPositionInLine { get; set; }
-        private static string defaultFileName = "Program.cs";
         public List<string> lines;
         public FileHandlerImpl()
         {
@@ -21,7 +20,7 @@ namespace FileHandler.Implementation
         {
             StringBuilder sb = new StringBuilder();
             int index = 0;
-            foreach(string l in lines)
+            foreach (string l in lines)
             {
                 StringBuilder lb = new StringBuilder();
                 lb.Append(index++);

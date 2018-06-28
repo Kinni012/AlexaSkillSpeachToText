@@ -17,7 +17,8 @@ namespace MUS.API.Controllers
     {
         private static IFileHandler fh = new FileHandlerImpl();
 
-        public FileController(IFileHandler fh) {
+        public FileController(IFileHandler fh)
+        {
             fh = new FileHandlerImpl();
         }
 
@@ -35,9 +36,9 @@ namespace MUS.API.Controllers
             };
             result.Content.Headers.ContentDisposition =
                 new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
-            {
-                FileName = "program.cs"
-            };
+                {
+                    FileName = "program.cs"
+                };
             result.Content.Headers.ContentType =
                 new MediaTypeHeaderValue("application/octet-stream");
 
@@ -49,11 +50,10 @@ namespace MUS.API.Controllers
         [HttpPost]
         public bool Post([FromBody]string name)
         {
-            return fh.CreateFile(name);
+            return true;
         }
 
 
-        //dont need that yet
         // POST api/values
         [Route("CreateClass")]
         [HttpPost]
@@ -62,27 +62,58 @@ namespace MUS.API.Controllers
 
         }
 
-
-         // POST api/values
-        [Route("CreateWhile")]
+        // POST api/values
+        [Route("CreateIf")]
         [HttpPost]
-        public void CreateWhile([FromBody]string[] value)
+        public void CreateIf([FromBody] dynamic data)
         {
+            string varName = data.varName;
+            string compareType = data.varName;
+            string number = data.varName;
+
+            List<string> l = new List<string>();
+
+
 
         }
+
+
 
         // POST api/values
-        [Route("CreateFor")]
+        [Route("SetColumn")]
         [HttpPost]
-        public void CreateFor([FromBody]string[] value)
+        public bool SetColumn([FromBody] dynamic data)
         {
-
+            fh.currentPositionInLine = data.columnNumber;
+            return true;
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+
+        // POST api/values
+        [Route("SetRow")]
+        [HttpPost]
+        public bool SetRow([FromBody] dynamic data)
         {
+            fh.currentLine = data.lineNumber;
+            return true;
+        }
+
+
+        // POST api/values
+        [Route("DeleteLine")]
+        [HttpPost]
+        public string DeleteLine([FromBody] dynamic data)
+        {
+            return fh.DeleteRange(data.lineNr, 1);
+        }
+
+
+        // POST api/values
+        [Route("ReadFile")]
+        [HttpPost]
+        public string ReadFile()
+        {
+            return fh.ReadFile();
         }
     }
 }

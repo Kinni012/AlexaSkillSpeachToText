@@ -14,7 +14,7 @@ namespace FileHandler.Interface
         bool AppendToFile(List<string> content);
         bool AppendFromLine(int lineNumber, List<string> content);
         bool ReplaceLineInFile(int lineNumber, string content);
-        bool ReplaceRangeInFile(int startLineNumber,  List<string> lineArray);
+        bool ReplaceRangeInFile(int startLineNumber, List<string> lineArray);
         bool DeleteRange(int startLineNumber, int count);
     }
 }

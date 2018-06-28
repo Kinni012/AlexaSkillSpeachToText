@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.IO;
 using AWSLambda1.HttpHandler;
+using Newtonsoft.Json;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
@@ -43,13 +44,6 @@ namespace AWSLambda1
       return response;
     }
 
-    private string CreateFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
-    {
-      string result = "Created File: ";
-      if (!(intentRequest.Intent.Slots.TryGetValue("name", out var fileName))) return result;
-      if (string.IsNullOrEmpty(fileName?.Value)) return result;
-      return result + $" {fileName.Value}";
-    }
     private string ConsoleWriteLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Write Line:";
@@ -61,19 +55,73 @@ namespace AWSLambda1
       return result + $" {text.Value}";
     }
 
+    private string ConsoleWriteLineVariableIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "Write line variable:";
+      
+      if (!(intentRequest.Intent.Slots.TryGetValue("varName", out var varName))) return result;
+      if (string.IsNullOrEmpty(varName?.Value)) return result;
+      return result + $" {varName.Value}";
+    }
+    
     private string GoToLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Go to line:";
       if (!(intentRequest.Intent.Slots.TryGetValue("lineNumber", out var lineNumber))) return result;
       if (string.IsNullOrEmpty(lineNumber?.Value)) return result;
+
+      var x = new { lineNumber = lineNumber.Value };
+      var data = JsonConvert.SerializeObject(x);
+
+      HttpHelper.PerformPost(Settings.PostUrl + "/SetRow", data);
+
       return result + $" {lineNumber.Value}";
     }
+
+    private string DeleteLineIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "Delete Line:";
+      if (!(intentRequest.Intent.Slots.TryGetValue("lineNr", out var lineNr))) return result;
+      if (string.IsNullOrEmpty(lineNr?.Value)) return result;
+
+      var x = new { lineNr = lineNr.Value };
+      var data = JsonConvert.SerializeObject(x);
+
+      HttpHelper.PerformPost(Settings.PostUrl + "/DeleteLine", data);
+      return result + $" {lineNr.Value}";
+    }
+    private string IncreaseVarIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "Increase Variable:";
+      if (!(intentRequest.Intent.Slots.TryGetValue("variableName", out var variableName))) return result;
+      if (string.IsNullOrEmpty(variableName?.Value)) return result;
+      return result + $" {variableName.Value}";
+    }
+
+
+    private string ReadFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      return HttpHelper.PerformPost(Settings.PostUrl + "/ReadFile", "\"Test.txt\"");
+    }
+
+    private string ResetFileIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      return "Reset file";
+    }
+
+
 
     private string GoToColumnIntent(IntentRequest intentRequest, ILambdaLogger logger)
     {
       string result = "Go to column:";
       if (!(intentRequest.Intent.Slots.TryGetValue("columnNumber", out var columnNumber))) return result;
       if (string.IsNullOrEmpty(columnNumber?.Value)) return result;
+
+      var x = new { columnNumber = columnNumber.Value };
+      var data = JsonConvert.SerializeObject(x);
+
+      HttpHelper.PerformPost(Settings.PostUrl + "/SetColumn", data);
+
       return result + $" {columnNumber.Value}";
     }
     private string CreateBoolVariableIntent(IntentRequest intentRequest, ILambdaLogger logger)
@@ -141,6 +189,52 @@ namespace AWSLambda1
       return result;
     }
 
+    private string WhileIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "While Created, Parameters: ";
+      if((intentRequest.Intent.Slots.TryGetValue("varName", out var varName))&&
+      (intentRequest.Intent.Slots.TryGetValue("compareType", out var compareType)) &&
+      (intentRequest.Intent.Slots.TryGetValue("num", out var num)))
+      {
+
+        if (!string.IsNullOrEmpty(varName?.Value))
+          result += " var name: " + varName.Value;
+
+        if (!string.IsNullOrEmpty(compareType?.Value))
+          result += " compareType: " + compareType.Value;
+
+        if (!string.IsNullOrEmpty(num?.Value))
+          result += " num: " + num.Value;
+
+      }
+      return result;
+    }
+
+    private string IfIntent(IntentRequest intentRequest, ILambdaLogger logger)
+    {
+      string result = "If Created, Parameters: ";
+      if ((intentRequest.Intent.Slots.TryGetValue("varName", out var varName)) &&
+      (intentRequest.Intent.Slots.TryGetValue("compareType", out var compareType)) &&
+      (intentRequest.Intent.Slots.TryGetValue("number", out var number)))
+      {
+
+        if (!string.IsNullOrEmpty(varName?.Value))
+          result += " var name: " + varName.Value;
+
+        if (!string.IsNullOrEmpty(compareType?.Value))
+          result += " compareType: " + compareType.Value;
+
+        if (!string.IsNullOrEmpty(number?.Value))
+          result += " number: " + number.Value;
+
+
+        var x = new { varName = varName.Value, compareType = compareType.Value, number = number.Value };
+        var data = JsonConvert.SerializeObject(x);
+
+        HttpHelper.PerformPost(Settings.PostUrl + "/CreateIf", data);
+      }
+      return result;
+    }
 
 
     //Use Url in Settingsfile for each post request
@@ -152,13 +246,15 @@ namespace AWSLambda1
       string responseSpeech = "";
       switch (s)
       {
-        case "CreateFileIntent":
-          responseSpeech += CreateFileIntent(intentRequest, logger);
-          break;
-
         case "ConsoleWriteLineIntent":
           responseSpeech += ConsoleWriteLineIntent(intentRequest, logger);
           break;
+
+        case "ConsoleWriteLineVariableIntent":
+          responseSpeech += ConsoleWriteLineVariableIntent(intentRequest, logger);
+          break;
+
+
 
         case "GoToLineIntent":
           responseSpeech += GoToLineIntent(intentRequest, logger);
@@ -171,13 +267,40 @@ namespace AWSLambda1
         case "CreateBoolVariableIntent":
           responseSpeech += CreateBoolVariableIntent(intentRequest, logger);
           break;
+
         case "CreateIntVariableIntent":
           responseSpeech += CreateIntVariableIntent(intentRequest, logger);
           break;
 
+
         case "ForIntent":
           responseSpeech += ForIntent(intentRequest, logger);
           break;
+
+        case "WhileIntent":
+          responseSpeech += WhileIntent(intentRequest, logger);
+          break;
+
+        case "IfIntent":
+          responseSpeech += IfIntent(intentRequest, logger);
+          break;
+
+        case "ReadFileIntent":
+          responseSpeech += ReadFileIntent(intentRequest, logger);
+          break;
+          
+        case "DeleteRowIntent":
+          responseSpeech += DeleteLineIntent(intentRequest, logger);
+          break;
+
+        case "IncreaseVarIntent":
+          responseSpeech += IncreaseVarIntent(intentRequest, logger);
+          break;
+
+        case "ResetFileIntent":
+          responseSpeech += ResetFileIntent(intentRequest, logger);
+          break;
+
 
       }
 
@@ -187,7 +310,26 @@ namespace AWSLambda1
         Text = responseSpeech
       });
 
+
       return response;
+    }
+
+    string convertCompareTextToSymbol(string s)
+    {
+      switch (s.ToLower())
+      {
+        case "lesser":
+          return "<";
+        case "higher":
+          return ">";
+        case "equals":
+          return "==";
+        case "higher or equals":
+          return ">=";
+        case "lesser or equals":
+          return "<=";
+      }
+      return "==";
     }
   }
 }

@@ -20,21 +20,6 @@
                     "samples": []
                 },
                 {
-                    "name": "CreateFileIntent",
-                    "slots": [
-                        {
-                            "name": "name",
-                            "type": "AMAZON.LITERAL"
-                        }
-                    ],
-                    "samples": [
-                        "Add file {Main|name}",
-                        "New file {Main|name}",
-                        "Create file {Main|name}",
-                        "Generate file {Main|name}"
-                    ]
-                },
-                {
                     "name": "ConsoleWriteLineIntent",
                     "slots": [
                         {
@@ -74,15 +59,15 @@
                     "name": "GoToColumnIntent",
                     "slots": [
                         {
-                            "name": "columNumber",
+                            "name": "columnNumber",
                             "type": "AMAZON.NUMBER"
                         }
                     ],
                     "samples": [
-                        "Enter Column {columNumber}",
-                        "Move to Column {columNumber}",
-                        "Column {columNumber}",
-                        "Go to Colum {columNumber}"
+                        "Enter Column {columnNumber}",
+                        "Move to Column {columnNumber}",
+                        "Column {columnNumber}",
+                        "Go to Colum {columnNumber}"
                     ]
                 },
                 {
@@ -178,6 +163,136 @@
                         "create int {val|name} {val}",
                         "create int {a|name} {val}"
                     ]
+                },
+                {
+                    "name": "DeleteRowIntent",
+                    "slots": [
+                        {
+                            "name": "lineNr",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "Delete row at position {lineNr}",
+                        "Remove row at position {lineNr}",
+                        "Remove Row {lineNr}",
+                        "Delete Row {lineNr}"
+                    ]
+                },
+                {
+                    "name": "ReadFileIntent",
+                    "slots": [],
+                    "samples": [
+                        "display file",
+                        "Show file",
+                        "Read file",
+                        "Show current file",
+                        "Display current file ",
+                        "Read current file"
+                    ]
+                },
+                {
+                    "name": "ConsoleWriteLineVariableIntent",
+                    "slots": [
+                        {
+                            "name": "varName",
+                            "type": "AMAZON.LITERAL"
+                        }
+                    ],
+                    "samples": [
+                        "console write line variable {u|varName}",
+                        "write line variable {z|varName}",
+                        "write variable {h|varName}",
+                        "cw variable {y|varName}",
+                        "Console write line var {x|varName}",
+                        "write line var {sample|varName}",
+                        "Cosole write var {x|varName}",
+                        "write var {Test|varName}",
+                        "cw var {i|varName}"
+                    ]
+                },
+                {
+                    "name": "IncreaseVarIntent",
+                    "slots": [
+                        {
+                            "name": "variableName",
+                            "type": "AMAZON.LITERAL"
+                        }
+                    ],
+                    "samples": [
+                        "increase var {test|variableName}",
+                        "increase variable {h|variableName}",
+                        "{z|variableName} plus plus",
+                        "{counter |variableName} plus plus",
+                        "{i|variableName} plus plus"
+                    ]
+                },
+                {
+                    "name": "WhileIntent",
+                    "slots": [
+                        {
+                            "name": "varName",
+                            "type": "AMAZON.LITERAL"
+                        },
+                        {
+                            "name": "compareType",
+                            "type": "comparisonType"
+                        },
+                        {
+                            "name": "num",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "While {val|varName} {compareType} {num}",
+                        "While {curVal|varName} {compareType} {num}",
+                        "While {u|varName} {compareType} {num}",
+                        "create while {o|varName} {compareType} {num}",
+                        "make while  {xyz|varName} {compareType} {num}",
+                        "make while  {ha|varName} {compareType} {num}",
+                        "make while  {h|varName} {compareType} {num}",
+                        "make while  {sample|varName} {compareType} {num}",
+                        "make while  {temp|varName} {compareType} {num}",
+                        "create while {i|varName} {compareType} {num}",
+                        "While {y|varName} {compareType} {num}"
+                    ]
+                },
+                {
+                    "name": "IfIntent",
+                    "slots": [
+                        {
+                            "name": "varName",
+                            "type": "AMAZON.LITERAL"
+                        },
+                        {
+                            "name": "compareType",
+                            "type": "comparisonType"
+                        },
+                        {
+                            "name": "number",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "makeif {num|varName} {compareType} {number}",
+                        "create if {num|varName} {compareType} {number}",
+                        "create if {o|varName} {compareType} {number}",
+                        "create if {s|varName} {compareType} {number}",
+                        "if {test|varName} {compareType} {number}",
+                        "if {var|varName} {compareType} {number}",
+                        "if {val|varName} {compareType} {number}",
+                        "if {y|varName} {compareType} {number}",
+                        "if {x|varName} {compareType} {number}",
+                        "if {i|varName} {compareType} {number}"
+                    ]
+                },
+                {
+                    "name": "ResetFileIntent",
+                    "slots": [],
+                    "samples": [
+                        "Clear File to base status",
+                        "Reset File to Base status"
+                    ]
                 }
             ],
             "types": [
@@ -192,6 +307,36 @@
                         {
                             "name": {
                                 "value": "true"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "comparisonType",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "equals"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "higher or equals"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "higher"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lesser or equals"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "lesser"
                             }
                         }
                     ]
