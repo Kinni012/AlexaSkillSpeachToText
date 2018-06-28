@@ -50,6 +50,30 @@ namespace MUS.API.Controllers
             fh.AppendToFile(l);
         }
 
+        // POST api/values
+        [Route("CreateFor")]
+        [HttpPost]
+        public bool CreateFor([FromBody] dynamic data)
+        {
+            string varName = data.varName;
+            string lowerBound = data.lowerBound;
+            string upperBound = data.upperBound;
+            string stepWidth = data.stepWidth;
+
+
+            List<string> l = new List<string>();
+            string s1 = "for(" + varName + " = " + lowerBound + "; " + varName + " < " + upperBound + "; " + varName + "+=" + stepWidth + ")";
+            l.Add(s1);
+            l.Add("{");
+            l.Add("");
+            l.Add("}");
+            l.Add("");
+
+            fh.AppendFromLine(fh.currentLine, l);
+            fh.currentLine += 2;
+
+            return true;
+        }
 
         // POST api/values
         [Route("CreateIf")]
