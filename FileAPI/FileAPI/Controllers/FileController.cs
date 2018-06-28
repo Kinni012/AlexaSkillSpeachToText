@@ -5,10 +5,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using FileHandler.Implementation;
 using FileHandler.Interface;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace MUS.API.Controllers
 {
@@ -25,7 +27,7 @@ namespace MUS.API.Controllers
     public FileController(IFileHandler fh)
     {
     }
-    
+
     private static void CreateFile()
     {
       List<string> l = new List<string>();
@@ -47,7 +49,7 @@ namespace MUS.API.Controllers
       l.Add("}");
       fh.AppendToFile(l);
     }
-
+    
     // POST api/values
     [Route("CreateFor")]
     [HttpPost]
@@ -69,7 +71,7 @@ namespace MUS.API.Controllers
 
       fh.AppendFromLine(fh.currentLine, l);
       fh.currentLine += 2;
-      
+
       return true;
     }
 
@@ -80,16 +82,50 @@ namespace MUS.API.Controllers
     public void CreateIf([FromBody] dynamic data)
     {
       string varName = data.varName;
-      string compareType = data.varName;
-      string number = data.varName;
+      string compareType = data.compareType;
+      string number = data.number;
 
       List<string> l = new List<string>();
+      l.Add("if(" + varName + " " + compareType + ")");
+      l.Add("{");
+      l.Add("");
+      l.Add("}");
+      l.Add("");
 
-
-
+      fh.AppendFromLine(fh.currentLine, l);
+      fh.currentLine += 2;
     }
 
+    [Route("CreateWhile")]
+    [HttpPost]
+    public void CreateWhile([FromBody] dynamic data)
+    {
+      string varName = data.varName;
+      string compareType = data.compareType;
+      string number = data.number;
 
+      List<string> l = new List<string>();
+      l.Add("while(" + varName + " " + compareType + ")");
+      l.Add("{");
+      l.Add("");
+      l.Add("}");
+      l.Add("");
+
+      fh.AppendFromLine(fh.currentLine, l);
+      fh.currentLine += 2;
+    }
+
+    // POST api/values
+    [Route("ConsoleWriteLine")]
+    [HttpPost]
+    public bool ConsoleWriteLine([FromBody] dynamic data)
+    {
+      List<string> l = new List<string>();
+      l.Add("Console.WriteLine(" + data.text + ")");
+      l.Add("");
+      fh.currentLine += 1;
+      return fh.AppendFromLine(fh.currentLine, l);
+    }
 
     // POST api/values
     [Route("SetColumn")]
@@ -100,7 +136,6 @@ namespace MUS.API.Controllers
       return true;
     }
 
-
     // POST api/values
     [Route("SetRow")]
     [HttpPost]
@@ -109,7 +144,6 @@ namespace MUS.API.Controllers
       fh.currentLine = data.lineNumber;
       return true;
     }
-
 
     // POST api/values
     [Route("DeleteLine")]
@@ -120,7 +154,6 @@ namespace MUS.API.Controllers
       int temp = Convert.ToInt32(s);
       return fh.DeleteRange(temp, 1);
     }
-
 
     // POST api/values
     [Route("ReadFile")]
