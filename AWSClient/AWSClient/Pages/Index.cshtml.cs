@@ -16,9 +16,10 @@ namespace AWSClient.Pages
         {
             var client = new HttpClient();
 
-            var res = client.PostAsync("http://10.0.1.185:7909/api/file/CreateFile", new StringContent("\"Test.txt\"", Encoding.UTF8, "application/json"));
-            Task.WaitAll();
-            fileContent = res.Result.ToString();
+            //var res = client.PostAsync("http://10.0.1.195:7909/api/file/CreateFile", new StringContent("\"Test.txt\"", Encoding.UTF8, "application/json"));
+            //Task.WaitAll();
+            fileContent = "";
+            //fileContent = res.Result?.ToString();
         }
     }
 }
